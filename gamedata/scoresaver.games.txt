@@ -1,0 +1,60 @@
+"Games"
+{
+    "tf"
+    {
+        "Signatures"
+        {
+            "CTFGameStats::ResetRoundStats"
+            {
+                "library"    "server"
+                "linux"      "@_ZN12CTFGameStats15ResetRoundStatsEv"
+            }
+
+            "CTFGameStats::IncrementStat"
+            {
+                "library"    "server"
+                "linux"      "@_ZN12CTFGameStats13IncrementStatEP9CTFPlayer12TFStatType_ti"
+            }
+        }
+
+        "Functions"
+        {
+            "CTFGameStats::ResetRoundStats"
+            {
+                "signature"    "CTFGameStats::ResetRoundStats"
+                "callconv"     "thiscall"
+                "return"       "void"
+                "this"         "address"
+            }
+        }
+    }
+
+    "open_fortress"
+    {
+        "Signatures"
+        {
+            "CTFGameStats::ResetRoundStats"
+            {
+                "library"    "server"
+                "linux"      "@_ZN12CTFGameStats15ResetRoundStatsEv"
+            }
+
+            "CTFGameStats::IncrementStat"
+            {
+                "library"    "server"
+                "linux"      "@_ZN12CTFGameStats13IncrementStatEP9CTFPlayer12TFStatType_ti"
+            }
+        }
+
+        "Functions"
+        {
+            "CTFGameStats::ResetRoundStats"
+            {
+                "signature"    "CTFGameStats::ResetRoundStats"
+                "callconv"     "thiscall"
+                "return"       "void"
+                "this"         "address"
+            }
+        }
+    }
+}

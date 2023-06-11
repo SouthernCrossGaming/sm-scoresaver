@@ -1,0 +1,7 @@
+include/**
+.vscode/**
+compile.dat
+compile.exe
+spcomp.exe
+deploy*
+compile.bat
