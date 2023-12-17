@@ -7,7 +7,7 @@
 
 #define PL_NAME "ScoreSaver"
 #define PL_DESC "Saves scores when players disconnect"
-#define PL_VERSION "1.0.0"
+#define PL_VERSION "1.0.1"
 
 public Plugin myinfo =
 {
@@ -21,6 +21,8 @@ public Plugin myinfo =
 Handle g_Cvar_Teamplay = INVALID_HANDLE;
 static Address CTFGameStats;
 static Handle SDKIncrementStat;
+
+int steamAddresses[MAXPLAYERS +1] = {0};
 
 StringMap sm_SavedScores;
 
@@ -91,11 +93,16 @@ public void Event_PlayerTeam(Event event, const char[] name, bool dontBroadcast)
         return;
     }
 
+    steamAddresses[client] = GetSteamAccountID(client);
+
+    if (steamAddresses[client] == 0) return;
+
     char steamId[16];
-    Format(steamId, sizeof(steamId), "%d", GetSteamAccountID(client));
+    Format(steamId, sizeof(steamId), "%d", steamAddresses[client]);
 
     char strScore[5];
     bool found = sm_SavedScores.GetString(steamId, strScore, sizeof(strScore));
+
     if (!found)
     {
         return;
@@ -109,13 +116,13 @@ public void Event_PlayerTeam(Event event, const char[] name, bool dontBroadcast)
 
 public void OnClientDisconnect(int client)
 {
-    if (IsFakeClient(client))
+    if (IsFakeClient(client) || steamAddresses[client] == 0)
     {
         return;
     }
 
     char steamId[16];
-    Format(steamId, sizeof(steamId), "%d", GetSteamAccountID(client));
+    Format(steamId, sizeof(steamId), "%d", steamAddresses[client]);
 
     int score = GetScore(client);
 
@@ -123,10 +130,16 @@ public void OnClientDisconnect(int client)
     Format(strScore, sizeof(strScore), "%d", score);
 
     sm_SavedScores.SetString(steamId, strScore, true);
+    steamAddresses[client] = 0;
 }
 
 public void OnMapEnd()
 {
+    for (int client=1;client<=MAXPLAYERS; client++)
+    {
+        steamAddresses[client] = 0;
+    }
+
     sm_SavedScores.Clear();
 }
 
